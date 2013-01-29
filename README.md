@@ -20,9 +20,10 @@ in the correct location.
     ],
     "repositories": [
         {
-            "type": "webroot",
+            "type": "package",
             "package": {
                 "name": "wordpress/wordpress",
+                "type": "webroot",
                 "version": "3.5.1",
                 "source": {
                     "type": "git",
