@@ -1,5 +1,7 @@
 # A Webroot [Composer](http://getcomposer.org) Library Installer
 
+[![Build Status](https://secure.travis-ci.org/fancyguy/webroot-installer.png)](http://travis-ci.org/fancyguy/webroot-installer)
+
 This is for PHP packages that support composer to configure in their `composer.json`.  It will
 allow a root package to define a webroot directory and webroot package and magically install it
 in the correct location.
