@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,7 +38,8 @@ use Composer\Util\Filesystem;
 use Composer\Composer;
 use Composer\Config;
 
-class WebrootInstallerTest extends TestCase {
+class WebrootInstallerTest extends TestCase
+{
     
     /**
      * @var \Composer\Composer
@@ -86,7 +86,8 @@ class WebrootInstallerTest extends TestCase {
      * 
      * @return void
      */
-    public function setUp() {
+    public function setUp()
+    {
         
         $this->fs = new Filesystem();
         
@@ -101,12 +102,14 @@ class WebrootInstallerTest extends TestCase {
         $this->binDir = realpath(sys_get_temp_dir()) . DIRECTORY_SEPARATOR . 'baton-test-bin';
         $this->ensureDirectoryExistsAndClear($this->binDir);
         
-        $this->config->merge(array(
-            'config'    => array(
-                'vendor-dir'    => $this->vendorDir,
-                'bin-dir'       => $this->binDir
+        $this->config->merge(
+            array(
+                'config'    => array(
+                    'vendor-dir'    => $this->vendorDir,
+                    'bin-dir'       => $this->binDir
+                )
             )
-        ));
+        );
         
         $this->dm = $this->getMockBuilder('Composer\Downloader\DownloadManager')
                     ->disableOriginalConstructor()
@@ -123,7 +126,8 @@ class WebrootInstallerTest extends TestCase {
      * 
      * @return void
      */
-    public function tearDown() {
+    public function tearDown()
+    {
         $this->fs->removeDirectory($this->vendorDir);
         $this->fs->removeDirectory($this->binDir);
     }
@@ -135,12 +139,14 @@ class WebrootInstallerTest extends TestCase {
      * 
      * @dataProvider dataForTestSupport
      */
-    public function testSupports($type, $expected) {
+    public function testSupports($type, $expected)
+    {
         $installer = new WebrootInstaller($this->io, $this->composer);
         $this->assertSame($expected, $installer->supports($type), sprintf('Failed to show support for %s', $type));
     }
     
-    public function dataForTestSupport() {
+    public function dataForTestSupport()
+    {
         return array(
             array(WebrootInstaller::INSTALLER_TYPE, true)
         );
@@ -149,18 +155,21 @@ class WebrootInstallerTest extends TestCase {
     /**
      * testWebrootInstallPath
      */
-    public function testWebrootInstallPath() {
+    public function testWebrootInstallPath()
+    {
         $installer = new WebrootInstaller($this->io, $this->composer);
         $package = new Package('fancyguy/webroot-package', '1.0.0', '1.0.0');
         $package->setType('webroot');
         
         $consumerPackage = new RootPackage('foo/bar', '1.0.0', '1.0.0');
         $this->composer->setPackage($consumerPackage);
-        $consumerPackage->setExtra(array(
-            'webroot-dir'       => 'content',
-            'webroot-package'   => 'fancyguy/webroot-package'
-        ));
-        
+        $consumerPackage->setExtra(
+            array(
+                'webroot-dir'       => 'content',
+                'webroot-package'   => 'fancyguy/webroot-package'
+            )
+        );
+
         $result = $installer->getInstallPath($package);
         $this->assertEquals('content', $result);
     }
@@ -172,7 +181,8 @@ class WebrootInstallerTest extends TestCase {
      * 
      * @expectedException \InvalidArgumentException
      */
-    public function testGetWebrootConfigurationException() {
+    public function testGetWebrootConfigurationException()
+    {
         $installer = new WebrootInstaller($this->io, $this->composer);
         $package = new Package('fancyguy/webroot-package', '1.0.0', '1.0.0');
         $package->setType('webroot');
@@ -187,7 +197,8 @@ class WebrootInstallerTest extends TestCase {
      * 
      * @expectedException \InvalidArgumentException
      */
-    public function testGetMultipleWebrootPackagesException() {
+    public function testGetMultipleWebrootPackagesException()
+    {
         $installer = new WebrootInstaller($this->io, $this->composer);
         $package1 = new Package('fancyguy/webroot-package', '1.0.0', '1.0.0');
         $package1->setType('webroot');
@@ -197,15 +208,16 @@ class WebrootInstallerTest extends TestCase {
         
         $consumerPackage = new RootPackage('foo/bar', '1.0.0', '1.0.0');
         $this->composer->setPackage($consumerPackage);
-        $consumerPackage->setExtra(array(
-            'webroot-dir'       => 'content',
-            'webroot-package'   => 'fancyguy/webroot-package'
-        ));
-        
+        $consumerPackage->setExtra(
+            array(
+                'webroot-dir'       => 'content',
+                'webroot-package'   => 'fancyguy/webroot-package'
+            )
+        );
+
         $consumerPackage->setRequires(array($package1, $package2));
         
         $result1 = $installer->getInstallPath($package1);
         $result2 = $installer->getInstallPath($package2);
     }
-    
 }

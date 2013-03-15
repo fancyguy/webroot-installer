@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,14 +35,16 @@ namespace FancyGuy\Composer;
 use Composer\Package\PackageInterface;
 use Composer\Installer\LibraryInstaller;
 
-class WebrootInstaller extends LibraryInstaller {
+class WebrootInstaller extends LibraryInstaller
+{
     
     const INSTALLER_TYPE = 'webroot';
         
     /**
      * {@inheritDoc}
      */
-    public function getInstallPath(PackageInterface $package) {
+    public function getInstallPath(PackageInterface $package)
+    {
         $type = $package->getType();
         
         $prettyName = $package->getPrettyName();
@@ -57,10 +58,12 @@ class WebrootInstaller extends LibraryInstaller {
         if ($this->composer->getPackage()) {
             $extra = $this->composer->getPackage()->getExtra();
             
-            if (!empty($extra['webroot-dir']) && !empty($extra['webroot-package']) && $extra['webroot-package'] === $prettyName) {
+            if (!empty($extra['webroot-dir']) &&
+                !empty($extra['webroot-package']) &&
+                $extra['webroot-package'] === $prettyName) {
                 return $extra['webroot-dir'];
             } else {
-                throw new \InvalidArgumentException('Sorry only one package can be installed into the configured webroot.');
+                throw new \InvalidArgumentException('Only one package can be installed into the configured webroot.');
             }
         } else {
             throw new \InvalidArgumentException('The root package is not configured properly.');
@@ -71,8 +74,8 @@ class WebrootInstaller extends LibraryInstaller {
     /**
      * {@inheritDoc}
      */
-    public function supports($packageType) {
+    public function supports($packageType)
+    {
         return $packageType === self::INSTALLER_TYPE;
     }
-    
 }
