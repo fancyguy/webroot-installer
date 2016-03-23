@@ -47,3 +47,7 @@ in the correct location.
 ```
 
 This would install the defined `wordpress/wordpress` package in the `content` directory of the project.
+
+## Warning
+
+Setting the `webroot-dir` to a non-empty directory will delete the contents in most cases.  It is recommended to use a clean target within your project directory.
