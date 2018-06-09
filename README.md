@@ -24,20 +24,19 @@ in the correct location.
             "package": {
                 "name": "wordpress/wordpress",
                 "type": "webroot",
-                "version": "3.5.1",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/WordPress/WordPress.git",
-                    "reference": "3.5.1"
+                "version": "4.5.1",
+                "dist": {
+                    "type": "zip",
+                    "url": "https://wordpress.org/wordpress-4.5.1-no-content.zip"
                 },
                 "require": {
-                    "fancyguy/webroot-installer": "1.0.0"
+                    "fancyguy/webroot-installer": "^1.0"
                 }
             }
         }
     ],
     "require": {
-        "wordpress/wordpress": "3.5.*"
+        "wordpress/wordpress": "4.5.*"
     },
     "extra": {
         "webroot-dir": "content",
